@@ -1,4 +1,3 @@
-from textnode import TextNode
 import htmlnode
 from enum import Enum
 
