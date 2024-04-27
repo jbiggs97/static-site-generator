@@ -1,7 +1,7 @@
 import unittest
 
 from textnode import TextNode
-
+import main
 
 class TestTextNode(unittest.TestCase):
 
@@ -20,10 +20,6 @@ class TestTextNode(unittest.TestCase):
     def test_urlnone(self):
         node = TextNode("dummy", "dummy")
         self.assertIsNone(node.url)
-
-
-    def test_texttypes(self):
-        pass
 
 
 if __name__ == "__main__":
