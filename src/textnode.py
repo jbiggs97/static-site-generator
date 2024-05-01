@@ -35,7 +35,7 @@ class TextNode:
     def __repr__(self):
         class_name = self.__class__.__name__
         attributes = list(self.__dict__.values())
-        return f"{class_name}({", ".join([str(x) for x in attributes])})"
+        return f'{class_name}({", ".join([str(x) for x in attributes])})'
     
 
 

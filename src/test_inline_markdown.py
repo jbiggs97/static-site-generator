@@ -1,7 +1,9 @@
+from textnode import TextNode, TextTypes
 import unittest
 from inline_markdown import (
     extract_markdown_images,
-    extract_markdown_links
+    extract_markdown_links,
+    text_to_textnodes
 )
 
 
@@ -33,6 +35,31 @@ class TestInlineMarkdown(unittest.TestCase):
         for case in test_cases:
             output = extract_markdown_links(case["test"])
             self.assertEqual(output, case["expect"])
+
+    
+    def test_text_to_textnodes(self):
+        test_cases = [
+            {
+                'test': 'This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)',
+                'expect': [
+                            TextNode("This is ", TextTypes.TEXT),
+                            TextNode("text", TextTypes.BOLD),
+                            TextNode(" with an ", TextTypes.TEXT),
+                            TextNode("italic", TextTypes.ITALIC),
+                            TextNode(" word and a ", TextTypes.TEXT),
+                            TextNode("code block", TextTypes.CODE),
+                            TextNode(" and an ", TextTypes.TEXT),
+                            TextNode("image", TextTypes.IMAGE, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"),
+                            TextNode(" and a ", TextTypes.TEXT),
+                            TextNode("link", TextTypes.LINK, "https://boot.dev"),
+                        ]
+
+            }
+        ]
+        for case in test_cases:
+            output = text_to_textnodes(case["test"])
+            for index, node in enumerate(output):
+                self.assertEqual(node, case["expect"][index])
 
 
 if __name__ == "__main__":
