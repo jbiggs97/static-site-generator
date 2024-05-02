@@ -96,6 +96,21 @@ var grayscaleCamelcaseSnow = beta(hertz_motion, ipModule + activeDvMetal(74,
 <p>Ut umero: inpulit meis glacies, in vicit cornua reverti, paulum iugulati merito
 multa. Praeside bracchia vultu tamen, vota his mariti mihi curaque secum; auras
 arma lora.</p>"""
+            },
+            {
+                'test': """# This is my **Heading**
+
+this is my paragraph
+
+My unordered list below:
+
+* List item 1
+* List item 2
+* *List* item 3""",
+                'expect': """<h1>This is my <b>Heading</b></h1>
+<p>this is my paragraph</p>
+<p>My unordered list below:</p>
+<ul><li>List item 1</li><li>List item 2</li><li><i>List</i> item 3</li></ul>"""
             }
         ]
         for case in test_cases:

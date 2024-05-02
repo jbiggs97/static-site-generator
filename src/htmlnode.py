@@ -30,8 +30,12 @@ class LeafNode(HTMLNode):
         elif self.tag is None:
             return str(self.value)
         else:
-            props_str = self.props_to_html()
-            return f"<{self.tag}{props_str}>{self.value}</{self.tag}>"
+            if self.tag in {'img'}:
+                props_str = self.props_to_html()
+                return f"<{self.tag}{props_str}>{self.value}"
+            else:
+                props_str = self.props_to_html()
+                return f"<{self.tag}{props_str}>{self.value}</{self.tag}>"
 
 
 class ParentNode(HTMLNode):

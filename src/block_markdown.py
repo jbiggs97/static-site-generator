@@ -122,7 +122,8 @@ def code_block_to_html_node(markdown_block):
 
 def quote_block_to_html_node(markdown_block):
     html_str = ""
-    node = ParentNode(f"blockquote", block_children_to_html(markdown_block))
+    markdown_lines = "\n".join([" ".join(x.split()[1:]) for x in markdown_block.split("\n")])
+    node = ParentNode(f"blockquote", block_children_to_html(markdown_lines))
     html_str = node.to_html()
     return html_str
 
