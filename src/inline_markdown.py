@@ -65,8 +65,10 @@ def split_nodes_link(old_nodes):
     return new_nodes
 
 
-def text_to_textnodes(text):
+def text_to_textnodes(text, code=0):
     nodes = [TextNode(text, TextTypes.TEXT)]
+    if code == 1:
+        return nodes
     nodes = (split_nodes_delimiter(nodes, "**", text_type=TextTypes.BOLD))
     nodes = (split_nodes_delimiter(nodes, "*", text_type=TextTypes.ITALIC))
     nodes = (split_nodes_delimiter(nodes, "`", text_type=TextTypes.CODE))
@@ -110,4 +112,4 @@ if __name__ == "__main__":
 
     text = "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
 
-    print(text_to_textnodes(text))
+    # print(text_to_textnodes(text))

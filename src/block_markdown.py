@@ -52,29 +52,42 @@ def block_to_block_type(markdown_block):
         return BlockTypes.PARAGRAPH
     
 
+def markdown_to_block_html(markdown_block):
+    block_type = block_to_block_type(markdown_block)
+    if block_type == BlockTypes.HEADING:
+        block_html = heading_block_to_html_node(markdown_block)
+    elif block_type == BlockTypes.PARAGRAPH:
+        block_html = paragraph_to_html_node(markdown_block)
+    elif block_type == BlockTypes.CODE:
+        block_html = code_block_to_html_node(markdown_block)
+    elif block_type == BlockTypes.QUOTE:
+        block_html = quote_block_to_html_node(markdown_block)
+    elif block_type == BlockTypes.UL:
+        block_html = ul_block_to_html_node(markdown_block)
+    elif block_type == BlockTypes.OL:
+        block_html = ol_block_to_html_node(markdown_block)
+    else:
+        raise Exception("MARKDOWN_TO_HTML ERROR: invalid markdown block type.")
+    return block_html
+
+
 def markdown_to_html(markdown):
+    html_blocks = []
     markdown_blocks = markdown_to_blocks(markdown)
     for block in markdown_blocks:
-        block_type = block_to_block_type(block)
-        if block_type == BlockTypes.HEADING:
-            block_html = heading_block_to_html_node(block)
-        elif block_type == BlockTypes.PARAGRAPH:
-            block_html = paragraph_to_html_node(block)
-        elif block_type == BlockTypes.CODE:
-            block_html = code_block_to_html_node(block)
-        elif block_type == BlockTypes.QUOTE:
-            block_html = quote_block_to_html_node(block)
-        elif block_type == BlockTypes.UL:
-            block_html = ul_block_to_html_node(block)
-        elif block_type == BlockTypes.OL:
-            block_html = ol_block_to_html_node(block)
-        else:
-            raise Exception("MARKDOWN_TO_HTML ERROR: invalid markdown block type.")
-    return block_html
+        html_block = markdown_to_block_html(block)
+        html_blocks.append(html_block)
+    return "\n".join(html_blocks)
     
 
 def block_children_to_html(markdown_block):
     text_nodes = text_to_textnodes(markdown_block)
+    html_nodes = [text_node_to_html_node(node) for node in text_nodes]
+    return html_nodes
+
+
+def code_block_children_to_html(markdown_block):
+    text_nodes = text_to_textnodes(markdown_block, code=1)
     html_nodes = [text_node_to_html_node(node) for node in text_nodes]
     return html_nodes
 
@@ -101,7 +114,7 @@ def heading_block_to_html_node(markdown_block):
 def code_block_to_html_node(markdown_block):
     markdown_block = markdown_block.strip("`")
     html_str = ""
-    node = ParentNode(f"code", block_children_to_html(markdown_block))
+    node = ParentNode(f"code", code_block_children_to_html(markdown_block))
     pre_node = ParentNode("pre", [node])
     html_str = pre_node.to_html()
     return html_str
@@ -136,4 +149,4 @@ if __name__ == "__main__":
     md = "* This is my code block with a **BOLD** word!\n* This is a second list Item\n* This is a *third* list Item."
 
 
-    print(markdown_to_html(md))
+    # print(markdown_to_html(md))
