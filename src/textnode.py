@@ -51,6 +51,6 @@ def text_node_to_html_node(text_node: TextNode):
     elif text_node.text_type == TextTypes.LINK:
         return htmlnode.LeafNode("a", text_node.text, {"href": text_node.url})
     elif text_node.text_type == TextTypes.IMAGE:
-        return htmlnode.LeafNode("img", text_node.text, {"href": text_node.url})
+        return htmlnode.LeafNode("img", text_node.text, {"src": text_node.url})
     else:
         raise Exception("TEXT_TYPE ERROR: Unknown text type.")

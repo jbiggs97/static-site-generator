@@ -113,6 +113,9 @@ def heading_block_to_html_node(markdown_block):
 
 def code_block_to_html_node(markdown_block):
     markdown_block = markdown_block.strip("`")
+    markdown_lines = markdown_block.split("\n")
+    markdown_lines = [x for x in markdown_lines if x != ""]
+    markdown_block = "\n".join(markdown_lines)
     html_str = ""
     node = ParentNode(f"code", code_block_children_to_html(markdown_block))
     pre_node = ParentNode("pre", [node])
